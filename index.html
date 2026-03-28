@@ -8,12 +8,14 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    background: #0a0a0f;
+    background:
+      radial-gradient(circle at top, #dff4ff 0%, #eef8ff 38%, #f8fcff 68%, #ffffff 100%);
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     font-family: 'Press Start 2P', monospace;
+    color: #17406d;
   }
   .wrap {
     display: flex;
@@ -29,27 +31,30 @@
     min-width: 120px;
   }
   .box {
-    background: #13131a;
-    border: 1px solid #2a2a3a;
+    background: rgba(255,255,255,0.88);
+    border: 1px solid #b8ddf8;
     border-radius: 8px;
     padding: 12px 14px;
+    box-shadow: 0 12px 28px rgba(116, 170, 214, 0.15);
+    backdrop-filter: blur(8px);
   }
   .box label {
     font-size: 8px;
-    color: #666;
+    color: #5c87ad;
     display: block;
     margin-bottom: 8px;
     letter-spacing: 1px;
   }
   .box .val {
     font-size: 16px;
-    color: #eee;
+    color: #0f3f72;
   }
   canvas#board {
     display: block;
-    border: 1px solid #2a2a3a;
+    border: 1px solid #9fcdf2;
     border-radius: 8px;
     image-rendering: pixelated;
+    box-shadow: 0 18px 42px rgba(88, 149, 201, 0.22);
   }
   canvas#next {
     display: block;
@@ -61,20 +66,20 @@
     font-family: 'Press Start 2P', monospace;
     font-size: 8px;
     cursor: pointer;
-    background: #13131a;
-    border: 1px solid #3a3a5a;
+    background: rgba(255,255,255,0.92);
+    border: 1px solid #a8d2f4;
     border-radius: 8px;
-    color: #ccc;
+    color: #215b93;
     letter-spacing: 1px;
     transition: all 0.15s;
   }
-  .btn:hover { background: #1e1e2e; color: #fff; border-color: #5a5a9a; }
+  .btn:hover { background: #e5f4ff; color: #123f6a; border-color: #72b8eb; }
   .btn:active { transform: scale(0.97); }
-  .btn.start { border-color: #2ecc71; color: #2ecc71; }
-  .btn.start:hover { background: #1a2e1e; }
+  .btn.start { border-color: #56ace8; color: #1570b8; }
+  .btn.start:hover { background: #d5efff; }
   .keys {
     font-size: 7px;
-    color: #444;
+    color: #4f7ca5;
     line-height: 2;
   }
   .board-wrap { position: relative; }
@@ -85,30 +90,31 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: rgba(0,0,0,0.75);
+    background: rgba(232, 246, 255, 0.86);
     border-radius: 8px;
     gap: 14px;
+    backdrop-filter: blur(8px);
   }
   .overlay-title {
     font-size: 20px;
-    color: #fff;
+    color: #0d4b7f;
     text-align: center;
     line-height: 1.6;
-    text-shadow: 0 0 20px rgba(255,255,255,0.3);
+    text-shadow: 0 8px 24px rgba(95, 170, 230, 0.28);
   }
   .overlay-sub {
     font-size: 9px;
-    color: rgba(255,255,255,0.6);
+    color: #5d88ae;
     text-align: center;
     line-height: 2;
   }
   .overlay-score {
     font-size: 12px;
-    color: #f1c40f;
+    color: #1d78c1;
   }
   .title-logo {
     font-size: 26px;
-    background: linear-gradient(135deg, #e74c3c, #e67e22, #f1c40f, #2ecc71, #3498db, #9b59b6);
+    background: linear-gradient(135deg, #0f63a8, #3f92d4, #67b6eb, #b7e4ff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -144,7 +150,7 @@
     <div class="overlay" id="overlay">
       <div class="title-logo">TETRIS</div>
       <div class="overlay-sub">START 버튼을 눌러<br>게임을 시작하세요</div>
-      <div class="overlay-sub" style="color:#555">← → 이동 &nbsp; ↑ 회전<br>↓ 내리기 &nbsp; SPACE 즉시낙하</div>
+      <div class="overlay-sub" style="color:#6f96b8">← → 이동 &nbsp; ↑ 회전<br>↓ 내리기 &nbsp; SPACE 즉시낙하</div>
     </div>
   </div>
 
@@ -177,7 +183,7 @@
 
 <script>
 const COLS = 10, ROWS = 20, CELL = 20;
-const COLORS = ['','#e74c3c','#e67e22','#f1c40f','#2ecc71','#3498db','#9b59b6','#1abc9c'];
+const COLORS = ['','#66b9ff','#4f9df0','#8ad7ff','#7bc3f7','#2f7fd1','#a9e4ff','#5ca8e8'];
 const PIECES = [
   [[1,1,1,1]],
   [[2,2],[2,2]],
@@ -217,9 +223,9 @@ function drawBlock(context, col, x, y, size) {
 
 function drawBoard() {
   ctx.clearRect(0,0,cvs.width,cvs.height);
-  ctx.fillStyle = '#0d0d12';
+  ctx.fillStyle = '#f3faff';
   ctx.fillRect(0,0,cvs.width,cvs.height);
-  ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+  ctx.strokeStyle = 'rgba(73, 132, 182, 0.12)';
   ctx.lineWidth = 0.5;
   for (let r=0;r<ROWS;r++) for (let c=0;c<COLS;c++) {
     ctx.strokeRect(c*CELL, r*CELL, CELL, CELL);
@@ -248,7 +254,7 @@ function ghostPos() {
 
 function drawNext() {
   nCtx.clearRect(0,0,nCvs.width,nCvs.height);
-  nCtx.fillStyle = '#0d0d12';
+  nCtx.fillStyle = '#f3faff';
   nCtx.fillRect(0,0,nCvs.width,nCvs.height);
   if (!nextPiece) return;
   const s = 16;
@@ -363,7 +369,7 @@ function gameOver() {
     <div class="overlay-title">GAME<br>OVER</div>
     <div class="overlay-score">SCORE: ${score}</div>
     <div class="overlay-sub">BEST: ${highScore}</div>
-    <div class="overlay-sub" style="color:#555;margin-top:8px">START를 눌러 재시작</div>
+    <div class="overlay-sub" style="color:#6f96b8;margin-top:8px">START를 눌러 재시작</div>
   `;
 }
 
